@@ -7,6 +7,8 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] protected float movementSpeed = 100f;
     [SerializeField] private ParticleSystem bloodFX;
     [SerializeField] private Transform bloodSpawnPoint;
+    [SerializeField] private AudioSource gunsound;
+
     protected float verticalDirection = 1;
 
     protected float sprintValue = 0f;
@@ -46,6 +48,7 @@ public class CharacterMovement : MonoBehaviour
         animator.SetTrigger("Death");
 
         var spawnedFX = Instantiate(bloodFX, bloodSpawnPoint.position, bloodFX.transform.rotation);
+        gunsound.Play();
         Destroy(spawnedFX, 5f);
         
         canMove = false;
