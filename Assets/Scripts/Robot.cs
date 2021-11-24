@@ -7,7 +7,7 @@ enum RobotStates { Counting, Inspecting }
 
 public class Robot : MonoBehaviour
 {
-    [SerializeField] private float startInspectionTime = 2f;
+    [SerializeField] private float startInspectionTime;
     [SerializeField] private AudioSource jingleSource;
 
     private float currentInspectionTime;
@@ -27,13 +27,15 @@ public class Robot : MonoBehaviour
     {
         characters = FindObjectsOfType<CharacterMovement>().ToList();
         animator = GetComponentInChildren<Animator>();
-
+        startInspectionTime = Random.Range(2, 4);
         currentInspectionTime = startInspectionTime;
+        // currentInspectionTime = Random.Range(2, 6);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (characters == null)
             return;
         
