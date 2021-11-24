@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
-{   
+{
     [SerializeField] protected float movementSpeed = 100f;
+    [SerializeField] private ParticleSystem bloodFX;
+    [SerializeField] private Transform bloodSpawnPoint;
     protected float verticalDirection = 1;
+
     protected float sprintValue = 0f;
-    
-    protected Rigidbody rb;
-    protected Animator animator;
+
+    public bool IsInvulnerable { get; private set; }
 
     private bool canMove = true;
+
+    protected Rigidbody rb;
+    protected Animator animator;
 
     void Awake()
     {
@@ -19,18 +24,7 @@ public class CharacterMovement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-        verticalDirection = Input.GetAxis("Vertical");
-        verticalDirection = Mathf.Clamp(verticalDirection, 0, 1);
-
-        sprintValue = Input.GetAxis("Horizontal");
-
-        animator.SetFloat("Speed", verticalDirection + sprintValue);
-    }
-        void FixedUpdate()
+    void FixedUpdate()
     {
         if (canMove == true)
         {
@@ -41,5 +35,26 @@ public class CharacterMovement : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
     }
-}
 
+    public bool IsMoving()
+    {
+        return rb.velocity.magnitude > 0.1f;
+    }
+
+    public virtual void Die()
+    {   
+        animator.SetTrigger("Death");
+
+        var spawnedFX = Instantiate(bloodFX, bloodSpawnPoint.position, bloodFX.transform.rotation);
+        Destroy(spawnedFX, 5f);
+        
+        canMove = false;
+        Debug.Log(name + " has died!");
+    }
+
+    public virtual void Win()
+    {
+        IsInvulnerable = true;
+        Debug.Log(name + " has won!");
+    }
+}
