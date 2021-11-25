@@ -5,58 +5,38 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARKit;
 
-[RequireComponent(typeof(ARFace))]
+// [RequireComponent(typeof(ARFace))]
 public class PlayerMovement : CharacterMovement
 {   
-    private ARFace face;
-    private ARKitFaceSubsystem faceSubsystem;
-
-    [SerializeField]
-    private Dictionary<ARKitBlendShapeLocation, float> cacheBlendShape;
-
-    private ARKitBlendShapeLocation blendShapeToTrack = ARKitBlendShapeLocation.JawOpen;
-
-    public float test_coef;
+    public float player_jaw_coef = 0f;
+    public float player_tongue_coef = 0f;
+    // private ARKitBlendShapeLocation blendShapeToTrack = ARKitBlendShapeLocation.JawOpen;
 
     void Start() {
     
-        face = GetComponent<ARFace>();
-        ARFaceManager faceManager = FindObjectOfType<ARFaceManager>();
-        
-        verticalDirection = 0;
-
-        if (faceManager != null) {
-            faceSubsystem = (ARKitFaceSubsystem)faceManager.subsystem;
-        }
-        face.updated += ArFace_Updated;
-
-
-    }
-
-    private void ArFace_Updated(ARFaceUpdatedEventArgs obj) {
-        cacheBlendShape = new Dictionary<ARKitBlendShapeLocation, float>();
-        using (var blendShapes = faceSubsystem.GetBlendShapeCoefficients(face.trackableId, Allocator.Temp)) {
-            foreach (var featureCoefficient in blendShapes) {
-                cacheBlendShape[featureCoefficient.blendShapeLocation] = featureCoefficient.coefficient;
-            }
-        test_coef = cacheBlendShape[blendShapeToTrack];
-            }
-    }
-
-    void OnDisable() {
-        face.updated -= ArFace_Updated;
+    verticalDirection = 0;
     }
     
-    private void Update() 
-    {
-        
-        if (test_coef>0) {
-            verticalDirection = 1;
-        }
-        
-        verticalDirection = Mathf.Clamp(verticalDirection, 0, 1);
+    public void GetCoeff(float jaw_coef, float tongue_coef){
+        Debug.Log("jaw_coef_player = "+ jaw_coef);
+        Debug.Log("tongue_coef_player = "+ tongue_coef);
+        player_jaw_coef = jaw_coef;
+        player_tongue_coef = tongue_coef;
+    }
 
-        sprintValue = Input.GetAxis("Sprint");
+    void Update() 
+    {
+        if (player_jaw_coef>0.25) {
+            verticalDirection = player_jaw_coef;
+        }
+        else {
+            verticalDirection = 0;
+        }
+        // verticalDirection = jaw_coef;
+        // verticalDirection = Mathf.Clamp(verticalDirection, 0, 1);
+
+        // sprintValue = Input.GetAxis("Sprint");
+        sprintValue = player_tongue_coef;
 
         animator.SetFloat("Speed", verticalDirection + sprintValue);
     }
