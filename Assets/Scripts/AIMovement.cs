@@ -17,6 +17,7 @@ public class AIMovement : CharacterMovement
 
         robot.OnStartCounting += OnStartCounting;
         robot.OnStopCounting += OnStopCounting;
+        //DenDenLovesCoding;
 
         currentStoppingTime = Random.Range(3, 6);
     }
