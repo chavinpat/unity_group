@@ -26,7 +26,7 @@ public class PlayerMovement : CharacterMovement
 
     void Update() 
     {
-        if (player_jaw_coef>0.25) {
+        if (player_jaw_coef>0.1) {
             verticalDirection = player_jaw_coef;
         }
         else {
