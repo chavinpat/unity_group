@@ -21729,6 +21729,7 @@ MonoBehaviour:
   gunsound: {fileID: 446643617}
   player_jaw_coef: 0
   player_tongue_coef: 0
+  KMrobot: {fileID: 1774079051}
 --- !u!4 &1192476491
 Transform:
   m_ObjectHideFlags: 0

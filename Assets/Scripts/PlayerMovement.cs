@@ -10,6 +10,9 @@ public class PlayerMovement : CharacterMovement
 {   
     public float player_jaw_coef = 0f;
     public float player_tongue_coef = 0f;
+
+    public GameObject KMrobot;
+    public AudioSource flutedaidai;
     // private ARKitBlendShapeLocation blendShapeToTrack = ARKitBlendShapeLocation.JawOpen;
 
     void Start() {
@@ -45,11 +48,15 @@ public class PlayerMovement : CharacterMovement
     {
         base.Die();
         UIManager.Instance.TriggerLoseMenu();
+        KMrobot.SetActive(false);
+        flutedaidai.Play();
     }
 
     public override void Win()
     {
         base.Win();
         UIManager.Instance.TriggerWinMenu();
+        KMrobot.SetActive(false);
+        flutedaidai.Play();
     }
 }
