@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class StartMenu : MonoBehaviour
 {
+    public AudioSource daidai;
     private int nextScene;
     // Start is called before the first frame update
     void Start()
@@ -18,5 +19,6 @@ public class StartMenu : MonoBehaviour
     public void NextScene()
     {
         SceneManager.LoadScene(nextScene);
+        daidai.Stop();
     }
 }

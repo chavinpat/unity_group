@@ -36,7 +36,7 @@ public class PlayerMovement : CharacterMovement
             verticalDirection = 0;
         }
         // verticalDirection = jaw_coef;
-        verticalDirection = Mathf.Clamp(verticalDirection, 0, 1);
+        // verticalDirection = Mathf.Clamp(verticalDirection, 0, 1);
 
         // sprintValue = Input.GetAxis("Sprint");
         sprintValue = player_tongue_coef;

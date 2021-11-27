@@ -8,7 +8,7 @@ using System.Linq;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private float initialTime = 10f;
+    [SerializeField] private float initialTime = 40f;
     private float currentTime;
 
     private List<CharacterMovement> characters = new List<CharacterMovement>();
@@ -23,12 +23,14 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("currentTime"+currentTime);
         if (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
             
             TimeSpan span = TimeSpan.FromSeconds(currentTime);
             timerText.text = span.ToString(@"mm\:ss");
+            
 
             return;
         }
